@@ -28,11 +28,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<dynamic> data = []; // Store the fetched data
-  List<dynamic> filteredData = []; // Store filtered data
+  List<dynamic> data = [];
+  List<dynamic> filteredData = [];
   TextEditingController searchController = TextEditingController();
 
-  // Fetch data from the API using ApiService
   Future<void> fetchData() async {
     try {
       final fetchedData = await ApiService.fetchPosts();
@@ -41,12 +40,10 @@ class _MyHomePageState extends State<MyHomePage> {
         filteredData = data;
       });
     } catch (e) {
-      // Handle any errors while fetching data
       print('Error fetching data: $e');
     }
   }
 
-  // Filter data based on search input
   void filterData(String query) {
     List<dynamic> results = [];
     if (query.isEmpty) {
@@ -65,10 +62,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    fetchData(); // Fetch data when the widget is initialized
+    fetchData();
     searchController.addListener(() {
-      filterData(
-          searchController.text); // Filter data on every change in search field
+      filterData(searchController.text);
     });
   }
 
@@ -92,9 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           Expanded(
             child: filteredData.isEmpty
-                ? const Center(
-                    child:
-                        CircularProgressIndicator()) // Show loading spinner while fetching
+                ? const Center(child: CircularProgressIndicator())
                 : ListView.builder(
                     itemCount: filteredData.length,
                     itemBuilder: (context, index) {
